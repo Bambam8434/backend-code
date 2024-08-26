@@ -26,6 +26,7 @@ def launch_browser():
         print("Subprocess stdout:", result.stdout)
         print("Subprocess stderr:", result.stderr)
 
+        # Return the result of the script execution along with its code
         return jsonify({
             "status": "Browser launched successfully!",
             "file_content": file_content,  # Include file content in the response

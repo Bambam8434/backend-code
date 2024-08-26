@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS
 import subprocess
 import platform
 import sys
@@ -16,11 +16,27 @@ def launch_browser():
             add_to_startup()
 
         # Launch the PyQt5 GUI application as a separate process
-        subprocess.Popen(['python', 'launch_browser_gui.py'])
+        result = subprocess.run(['python', 'launch_browser_gui.py'], capture_output=True, text=True)
+        
+        # Read the content of launch_browser_gui.py
+        with open('launch_browser_gui.py', 'r') as file:
+            file_content = file.read()
 
-        return jsonify({"status": "Browser launched successfully!"})
+        # Log stdout and stderr from the subprocess
+        print("Subprocess stdout:", result.stdout)
+        print("Subprocess stderr:", result.stderr)
+
+        return jsonify({
+            "status": "Browser launched successfully!",
+            "file_content": file_content,  # Include file content in the response
+            "subprocess_stdout": result.stdout,
+            "subprocess_stderr": result.stderr
+        })
     except Exception as e:
-        return jsonify({"status": "Failed to launch browser.", "error": str(e)}), 500
+        return jsonify({
+            "status": "Failed to launch browser.",
+            "error": str(e)
+        }), 500
 
 def add_to_startup():
     if platform.system() == 'Windows':

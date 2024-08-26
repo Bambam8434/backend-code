@@ -131,9 +131,11 @@ class BlockerWindow(QMainWindow):
         self.block_system_shortcuts()
         keyboard.add_hotkey('ctrl+shift+q', self.close_application)
 
+        # Log to a file for troubleshooting
+        with open('launch_browser_gui_log.txt', 'w') as log_file:
+            log_file.write("Application launched successfully\n")
+
     def block_system_shortcuts(self):
-        # Add logging for debugging
-        print("Blocking system shortcuts")
         keyboard.block_key('windows')
         keyboard.block_key('alt')
         keyboard.block_key('tab')
@@ -141,26 +143,10 @@ class BlockerWindow(QMainWindow):
         keyboard.block_key('del')
         keyboard.block_key('esc')
         keyboard.block_key('f4')
-        keyboard.block_key('l')
+        keyboard.block_key('shift')
 
     def close_application(self):
-        print("Closing application")
-        self.close()
-
-    def keyPressEvent(self, event):
-        event.ignore()
-
-    def mousePressEvent(self, event):
-        event.ignore()
-
-    def mouseMoveEvent(self, event):
-        event.ignore()
-
-    def closeEvent(self, event):
-        event.accept()
-
-    def resizeEvent(self, event):
-        event.ignore()
+        QApplication.quit()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

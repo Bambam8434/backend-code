@@ -10,7 +10,7 @@ import keyboard
 app = Flask(__name__)
 
 # Flask route to launch the Python script
-@app.route('/launch_browser', methods=['GET'])
+@app.route('/', methods=['GET'])
 def launch_browser():
     try:
         # Optionally add to startup (platform-specific)

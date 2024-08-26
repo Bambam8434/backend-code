@@ -1,12 +1,11 @@
 from flask import Flask, jsonify
 import sys
 import os
-import ctypes
+import platform
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import Qt
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import keyboard
-import winreg as reg
 
 app = Flask(__name__)
 
@@ -14,8 +13,9 @@ app = Flask(__name__)
 @app.route('/launch_browser', methods=['GET'])
 def launch_browser():
     try:
-        # Add the script to startup using the registry
-        add_to_startup()
+        # Optionally add to startup (platform-specific)
+        if platform.system() == 'Windows':
+            add_to_startup()
 
         # Initialize the PyQt application
         qt_app = QApplication(sys.argv)
@@ -29,12 +29,14 @@ def launch_browser():
         return jsonify({"status": "Failed to launch browser.", "error": str(e)}), 500
 
 def add_to_startup():
-    exe_path = sys.executable if getattr(sys, 'frozen', False) else os.path.realpath(__file__)
-    key = reg.HKEY_CURRENT_USER
-    key_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
+    if platform.system() == 'Windows':
+        import winreg as reg
+        exe_path = sys.executable if getattr(sys, 'frozen', False) else os.path.realpath(__file__)
+        key = reg.HKEY_CURRENT_USER
+        key_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
 
-    with reg.OpenKey(key, key_path, 0, reg.KEY_SET_VALUE) as reg_key:
-        reg.SetValueEx(reg_key, "BlockerApp", 0, reg.REG_SZ, exe_path)
+        with reg.OpenKey(key, key_path, 0, reg.KEY_SET_VALUE) as reg_key:
+            reg.SetValueEx(reg_key, "BlockerApp", 0, reg.REG_SZ, exe_path)
 
 class BlockerWindow(QMainWindow):
     def __init__(self):

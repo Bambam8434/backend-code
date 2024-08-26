@@ -1,12 +1,13 @@
 from flask import Flask, jsonify
+from flask_cors import CORS  # Import CORS
 import subprocess
 import platform
-import sys 
-import os  
+import sys
+import os
 
 app = Flask(__name__)
+CORS(app)  # Initialize CORS for the app
 
-# Flask route to launch the Python script
 @app.route('/', methods=['GET'])
 def launch_browser():
     try:
@@ -15,11 +16,7 @@ def launch_browser():
             add_to_startup()
 
         # Launch the PyQt5 GUI application as a separate process
-        result = subprocess.run(['python', 'launch_browser_gui.py'], capture_output=True, text=True)
-        
-        # Log stdout and stderr from the subprocess
-        print("Subprocess stdout:", result.stdout)
-        print("Subprocess stderr:", result.stderr)
+        subprocess.Popen(['python', 'launch_browser_gui.py'])
 
         return jsonify({"status": "Browser launched successfully!"})
     except Exception as e:

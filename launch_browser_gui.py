@@ -1,4 +1,3 @@
-# launch_browser_gui.py
 import sys
 import platform
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -12,7 +11,7 @@ class BlockerWindow(QMainWindow):
 
         self.browser = QWebEngineView()
         html_content = '''
-      <!DOCTYPE html>
+        <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
@@ -133,6 +132,8 @@ class BlockerWindow(QMainWindow):
         keyboard.add_hotkey('ctrl+shift+q', self.close_application)
 
     def block_system_shortcuts(self):
+        # Add logging for debugging
+        print("Blocking system shortcuts")
         keyboard.block_key('windows')
         keyboard.block_key('alt')
         keyboard.block_key('tab')
@@ -143,6 +144,7 @@ class BlockerWindow(QMainWindow):
         keyboard.block_key('l')
 
     def close_application(self):
+        print("Closing application")
         self.close()
 
     def keyPressEvent(self, event):

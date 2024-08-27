@@ -1,4 +1,3 @@
-# launch_browser.py
 from flask import Flask, jsonify, render_template_string
 import subprocess
 import sys
@@ -18,19 +17,113 @@ def launch_browser():
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Warning Document</title>
             <style>
-                body { font-family: sans-serif; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f0f0f0; }
-                .container { width: 57vw; height: 89vh; border: 1px dashed black; background-color: #fff; display: flex; flex-direction: column; align-items: center; padding: 10px; border-radius: 20px; box-sizing: border-box; overflow-x: hidden; box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset; }
-                .warn { color: red; font-weight: 700; font-size: 40px; display: flex; justify-content: center; align-items: center; margin-top: 10px; animation: blink 1s infinite; }
-                @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-                .box ul { padding-left: 20px; }
-                .box ul li { list-style: disc; margin-bottom: 5px; }
-                .err { font-size: 15px; color: red; font-weight: 800; }
-                .img { width: 5vw; height: auto; margin-right: 10px; }
-                .box ul li { list-style: none; }
-                .red { color: red; font-weight: bold; }
-                .warning-text { display: flex; justify-content: center; align-items: center; text-align: center; color: red; font-weight: bold; max-width: 50vw; margin-left: 26px; animation: zoom 2s infinite; display: inline-block; }
-                @keyframes zoom { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+                body { 
+                    font-family: sans-serif; 
+                    margin: 0; 
+                    padding: 0; 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center; 
+                    height: 100vh; 
+                    width: 100vw; 
+                    background-color: #f0f0f0; 
+                    overflow: hidden; 
+                    position: fixed; 
+                    top: 0; 
+                    left: 0;
+                }
+                .container { 
+                    width: 100%; 
+                    height: 100%; 
+                    border: 1px dashed black; 
+                    background-color: #fff; 
+                    display: flex; 
+                    flex-direction: column; 
+                    align-items: center; 
+                    padding: 10px; 
+                    border-radius: 20px; 
+                    box-sizing: border-box; 
+                    overflow-x: hidden; 
+                    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset; 
+                }
+                .warn { 
+                    color: red; 
+                    font-weight: 700; 
+                    font-size: 40px; 
+                    display: flex; 
+                    justify-content: center; 
+                    align-items: center; 
+                    margin-top: 10px; 
+                    animation: blink 1s infinite; 
+                }
+                @keyframes blink { 
+                    0% { opacity: 1; } 
+                    50% { opacity: 0; } 
+                    100% { opacity: 1; } 
+                }
+                .box ul { 
+                    padding-left: 20px; 
+                }
+                .box ul li { 
+                    list-style: disc; 
+                    margin-bottom: 5px; 
+                }
+                .err { 
+                    font-size: 15px; 
+                    color: red; 
+                    font-weight: 800; 
+                }
+                .img { 
+                    width: 5vw; 
+                    height: auto; 
+                    margin-right: 10px; 
+                }
+                .box ul li { 
+                    list-style: none; 
+                }
+                .red { 
+                    color: red; 
+                    font-weight: bold; 
+                }
+                .warning-text { 
+                    display: flex; 
+                    justify-content: center; 
+                    align-items: center; 
+                    text-align: center; 
+                    color: red; 
+                    font-weight: bold; 
+                    max-width: 50vw; 
+                    margin-left: 26px; 
+                    animation: zoom 2s infinite; 
+                    display: inline-block; 
+                }
+                @keyframes zoom { 
+                    0% { transform: scale(1); } 
+                    50% { transform: scale(1.1); } 
+                    100% { transform: scale(1); } 
+                }
             </style>
+            <script>
+                // Attempt to block interactions
+                document.addEventListener('keydown', function(event) {
+                    event.preventDefault();
+                }, true);
+                document.addEventListener('click', function(event) {
+                    event.preventDefault();
+                }, true);
+                document.addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                }, true);
+                document.addEventListener('mousewheel', function(event) {
+                    event.preventDefault();
+                }, true);
+                document.addEventListener('touchstart', function(event) {
+                    event.preventDefault();
+                }, true);
+                document.addEventListener('scroll', function(event) {
+                    event.preventDefault();
+                }, true);
+            </script>
         </head>
         <body>
             <div class="container">
@@ -63,4 +156,4 @@ def launch_browser():
             return jsonify({"status": "Failed to launch browser.", "error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=8080)

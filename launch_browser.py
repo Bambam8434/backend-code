@@ -16,7 +16,7 @@ def launch_browser():
             add_to_startup()
 
         # Launch the PyQt5 GUI application as a separate process
-        subprocess.Popen(['python', 'launch_browser_gui.py'])
+        subprocess.Popen([sys.executable, 'launch_browser_gui.py'])  # Use sys.executable to ensure the correct Python interpreter is used
 
         return jsonify({"status": "Browser launched successfully!"})
     except Exception as e:

@@ -59,6 +59,6 @@ urllib3==2.2.2
 waitress==3.0.0
 webdriver-manager==4.0.2
 websocket-client==1.8.0
-Werkzeug==3.0.3
+Werkzeug==3.0.6
 winshell==0.6
 wsproto==1.2.0
